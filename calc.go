@@ -11,7 +11,9 @@ func main() {
 	var day int
 
 	//задаем сумму депозита и срок вклада
-	fmt.Println("\n", "Какая сумма депозита?")
+	fmt.Println("Приветствую! Это калькулятор сложного процента для проекта SpaceBot!")
+	time.Sleep(1 * time.Second)
+	fmt.Println("\n", "Введите сумму депозита в рублях:")
 	fmt.Scanln(&dep)
 	money = dep
 	fmt.Println("На сколько месяцев вносим депозит?")
