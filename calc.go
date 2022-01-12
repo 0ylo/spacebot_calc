@@ -53,6 +53,7 @@ func main() {
 	fmt.Println("Чтобы начать зарабатывать на инвестировании - регистрируйся по ссылке https://spaceltd.page.link/vsbKRBK6Mh66cFXbA \n", "По всем вопросам пишите на https://t.me/Surnev")
 }
 
+//подсчет календарных дней
 func calct(day int) int {
 	var now = time.Now()
 	var month int
