@@ -3,44 +3,73 @@ package main
 import (
 	"fmt"
 	"math"
+	"os"
 	"time"
 )
 
-func main() {
-	var dep, dayly, money, relax, first float64
-	var day int
+var dep, dayly, money, relax, first float64
+var day int
 
-	//задаем сумму депозита и срок вклада
-	fmt.Println("Приветствую! Это калькулятор сложного процента для проекта SpaceBot!")
-	time.Sleep(1 * time.Second)
-	fmt.Println("\n", "Введите сумму депозита в рублях:")
+//place for struct
+
+func main() {
+	var menu int
+	for {
+		fmt.Printf("\n\n1 - Рассчитать процент \n2 - Коротко об условиях \n3 - Инструкции и подробнее о проекте\n4 - Задать вопрос \n0 - выход \n\n")
+		fmt.Scanln(&menu)
+		switch {
+		case menu == 1:
+			calculate()
+		case menu == 2:
+			fmt.Println("\nИнвестиции под 8% в месяц с ежедневной выплатой процента (соответственно можно реинвестировать ежедневно!).\nТело депозита удерживается на 30 дней.\n")
+		case menu == 3:
+			fmt.Println("\nПодробности и регистрация по ссылке https://teletype.in/@arousal/spacebot\n")
+		case menu == 4:
+			fmt.Println("\nПо всем вопросам пишите на https://t.me/Surnev\n")
+		case menu == 0:
+			fmt.Println("\nGoodbye!")
+			os.Exit(0)
+		default:
+			fmt.Println("\nНет такого пункта меню\n")
+		}
+	}
+}
+
+func calculate() {
+	//Задаем сумму депозита и срок вклада
+	fmt.Println("\nПриветствую! Это калькулятор сложного процента для проекта SpaceBot!\n\nВведите сумму депозита в рублях:")
 	fmt.Scanln(&dep)
+
+	// Проверка положительной суммы
+	for dep < 1 {
+		fmt.Println("Введите пожалуйста значение больше нуля")
+		fmt.Scanln(&dep)
+	}
 	money = dep
-	fmt.Println("На сколько месяцев вносим депозит?")
+
+	// 3адаем количество месяцев
+	fmt.Println("\nНа сколько месяцев вносим депозит?")
 	days := calct(day)
 	months := math.Round(float64(days) / 30)
 
-	// считаем доход за год без реинвестирования
-	if dep < 210000 {
-		relax = dep + dep*0.0716*float64(months)
-	} else {
+	// Cчитаем доход за год без реинвестирования
+	relax = dep + dep*0.0716*float64(months)
+	if dep > 210000 {
 		relax = dep + dep*0.08*float64(months)
 	}
-	fmt.Println("\n", "Хорошо, без реинвестирования ваш депозит через", months, "месяцаев, составит:")
+	fmt.Println("\nХорошо, без реинвестирования ваш депозит через", months, "месяцаев, составит:")
 	fmt.Printf("%.2f\n", relax)
 
-	// считаем первую выплату по проценту
-	if money < 210000 {
-		first = money * 0.002327
-	} else {
+	// Cчитаем первую выплату по проценту
+	first = money * 0.002327
+	if money > 210000 {
 		first = money * 0.0026
 	}
-	fmt.Println("\n", "Ежедневно вам будет начисляться процент, начиная с")
-	fmt.Printf("%.2f\n", first)
+	fmt.Printf("Ежедневно вам будет начисляться процент, начиная с\n%.2f\n", first)
 
-	// подсчет реинвестирования
+	// Подсчет реинвестирования
 	for i := 0; i < days; i++ {
-		if money < 210000 {
+		if money > 210000 {
 			dayly = money * 0.002327
 			money = dayly + money
 		} else {
@@ -50,16 +79,16 @@ func main() {
 	}
 	fmt.Println("\n", "Ваш депозит через", months, "месяцяев при ежедневном реинвестировании:")
 	fmt.Printf("%.2f\n", money)
-	fmt.Println("\n")
-
-	fmt.Println("Чтобы начать зарабатывать на инвестировании - регистрируйся по ссылке https://spaceltd.page.link/vsbKRBK6Mh66cFXbA \n", "По всем вопросам пишите на https://t.me/Surnev")
 }
 
-//подсчет календарных дней
 func calct(day int) int {
 	var now = time.Now()
 	var month int
 	fmt.Scanln(&month)
+	for month < 1 {
+		fmt.Println("Введите пожалуйста значение больше нуля")
+		fmt.Scanln(&month)
+	}
 	var se = now.AddDate(0, month, 0)
 	dur := se.Sub(now)
 	allday := dur.Hours() / 24
