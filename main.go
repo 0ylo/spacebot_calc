@@ -7,6 +7,14 @@ import (
 	"time"
 )
 
+const (
+	minTax    float64 = 0.0716
+	maxTax    float64 = 0.08
+	dayMinTax float64 = 0.002327
+	dayMaxTax float64 = 0.0026
+	threshold int     = 210000
+)
+
 var dep, dayly, money, relax, first float64
 var day int
 
@@ -53,27 +61,27 @@ func calculate() {
 	months := math.Round(float64(days) / 30)
 
 	// Cчитаем доход за год без реинвестирования
-	relax = dep + dep*0.0716*float64(months)
-	if dep > 210000 {
-		relax = dep + dep*0.08*float64(months)
+	relax = dep + dep*minTax*float64(months)
+	if dep > float64(threshold) {
+		relax = dep + dep*maxTax*float64(months)
 	}
 	fmt.Println("\nХорошо, без реинвестирования ваш депозит через", months, "месяцаев, составит:")
 	fmt.Printf("%.2f\n", relax)
 
 	// Cчитаем первую выплату по проценту
-	first = money * 0.002327
-	if money > 210000 {
-		first = money * 0.0026
+	first = money * dayMinTax
+	if money > float64(threshold) {
+		first = money * dayMaxTax
 	}
 	fmt.Printf("Ежедневно вам будет начисляться процент, начиная с\n%.2f\n", first)
 
 	// Подсчет реинвестирования
 	for i := 0; i < days; i++ {
-		if money > 210000 {
-			dayly = money * 0.002327
+		if money > float64(threshold) {
+			dayly = money * dayMinTax
 			money = dayly + money
 		} else {
-			dayly = money * 0.0026
+			dayly = money * dayMaxTax
 			money = dayly + money
 		}
 	}
@@ -81,6 +89,7 @@ func calculate() {
 	fmt.Printf("%.2f\n", money)
 }
 
+// подсчет календарных дней в зависимости от текущей даты
 func calct(day int) int {
 	var now = time.Now()
 	var month int
