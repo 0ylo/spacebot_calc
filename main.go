@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-//constant for different percent
+// Cnstant for different percent
 // For sum more than 210 000 it's 8% per month and 0.26% per day
 // For sum less than 210 000 it's 7.16%% per month and 0.2327% per day
 const (
