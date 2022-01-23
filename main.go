@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// Cnstant for different percent
+// Costant for different percent
 // For sum more than 210 000 it's 8% per month and 0.26% per day
 // For sum less than 210 000 it's 7.16%% per month and 0.2327% per day
 const (
@@ -20,8 +20,6 @@ const (
 
 var dep, dayly, money, relax, first float64
 var day int
-
-//place for struct
 
 func main() {
 	//Ugly menu for console with many spaces (need for readable outputs and menu)
