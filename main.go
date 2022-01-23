@@ -89,7 +89,7 @@ func calculate() {
 			money = dayly + money
 		}
 	}
-	fmt.Println("\n", "Ваш депозит через", months, "месяцяев при ежедневном реинвестировании:")
+	fmt.Println("\nВаш депозит через", months, "месяцяев при ежедневном реинвестировании:")
 	fmt.Printf("%.2f\n", money)
 }
 
